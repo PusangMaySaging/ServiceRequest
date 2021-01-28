@@ -2,7 +2,7 @@
 ## How to Run 
 
 1. Run `https://github.com/Ryanali23/ServiceRequest.git` or download as ZIP file.
-2. After cloning, Run you IDE or open folder with your favorite text editor. You can run using console with: 
+2. After cloning, Run you IDE or open folder with your text editor. You can run using console with: 
 `javac App.java`
 `java App`
 5. Enjoy :heart:
