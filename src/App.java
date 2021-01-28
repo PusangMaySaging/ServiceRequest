@@ -12,6 +12,7 @@ public class App {
     static UserDatabase<User> userDB = new UserDatabase<>();
     static Scanner input = new Scanner(System.in);
     static int registrationID = 1;
+    static int requestID = 1;
     static boolean isAppRunning = true;
     public static void main(String[] args) throws Exception {
 
@@ -72,10 +73,15 @@ public class App {
         switch(choice){
             case 1:
             User.requestList.viewAllRequest();
+            break;
             case 2: 
+            initializeChangeStatusForm();
             break;
             case 3:
             session.isAuth = false;
+            break;
+            default:
+            System.out.println("Invalid Option");
         }
        }
        while(session.isAuth);
@@ -83,7 +89,7 @@ public class App {
     public static void initializeCustomerDashboard(){
         int choice = 0;
         do{
-            System.out.print("1 to View your Request, 2 to Make a Request, 3 to Logout : ");
+            System.out.print("1 to View your Request, 2 to Make a Request,3 View Remarked Request, 4 to Logout : ");
             choice = input.nextInt();
             switch(choice){
                 case 1: 
@@ -92,9 +98,14 @@ public class App {
                 case 2: 
                 initializeRequestForm();
                 break;
-                case 3:
+                case 3: 
+                User.requestList.viewRemarkedRequestByCurrentUserId(session.id);
+                break;
+                case 4:
                 session.isAuth = false;
-                
+                break;
+                default:
+                System.out.println("Invalid Option");
             }
         }
         while(session.isAuth);
@@ -103,24 +114,30 @@ public class App {
         input.nextLine();// fix cursor jump
         System.out.print("Enter your request description: ");
         String description = input.nextLine();
-        User.requestList.createRequest(new Request(session.id, session.name, description));
-    }   
+        User.requestList.createRequest(new Request(requestID,session.id, session.name, description));
+        requestID = requestID + 1;
+    }  
+    public static void initializeChangeStatusForm(){
+        // fix cursor jump
+        int id = 0;
+        System.out.print("Enter ID of request to be fulfilled: ");
+        id = input.nextInt();
+        input.nextLine();
+        boolean isRecordExisted = User.requestList.contains(id);
+        if(isRecordExisted){
+            System.out.println("Enter message: ");
+            String message = input.nextLine();
+            System.out.println("Enter ticket: ");
+            String ticket = input.nextLine();
+            User.requestList.changeRequestStatus(id, message, ticket);
+        }
+        else{
+            System.out.println("no records existed with id of : " + id);
+        }
+
+    } 
 
 }
 
 
 
-
-   // userDB.add(new Customer(1,"Kyle"));
-       // userDB.add(new Customer(2,"Gelo"));
-        //Customer customerOne = (Customer) userDB.findById(1);
-        //Customer customerTwo = (Customer) userDB.findById(2);
-     
-        //..customerOne.createRequest(new Request(customerOne.id,customerOne.name,"I am requesting for replacement of new Tire"));
-        //customerOne.createRequest(new Request(customerTwo.id,customerTwo.name,"I am requesting for replacement of WindShield"));
-        //User.requestList.createRequest(new Request(customerOne.id,customerOne.name,"I am requesting for replacement of new Tire"));
-        //User.requestList.createRequest(new Request(customerTwo.id,customerTwo.name,"I am requesting for replacement of WindShield"));
-       // User.requestList.viewAllRequest();
-        //User.requestList.viewRequestByCurrentUserId(2);
-
-        //userDB.printAllUsers();

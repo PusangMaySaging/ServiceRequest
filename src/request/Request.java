@@ -1,20 +1,27 @@
 package request;
 
 public class Request {
+    public int id;
     public int idOfUser;
-    public static int id;
     public String nameOfUser;
     public String description;
-    private boolean isAccepted = false;
-
-    public Request(int idOfUser, String nameOfUser, String description){
+    private boolean status = false;
+    public Remark remark;
+    public Request(int id,int idOfUser, String nameOfUser, String description){
+        this.id = id;
         this.idOfUser = idOfUser;
-        Request.id = Request.id + 1;
         this.nameOfUser = nameOfUser;;
         this.description = description;
 
     }
-    public void setAccepted(boolean val){
-        this.isAccepted = val;
+    public void setStatus(boolean val){
+        this.status = val;
     }
+    public boolean getStatus(){
+        return this.status;
+    }
+    public void setRemark(Remark remark){
+        this.remark = remark;
+    }
+    
 }
