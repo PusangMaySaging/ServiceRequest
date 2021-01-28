@@ -11,17 +11,28 @@ public class RequestList {
         this.numberOfRequest = this.numberOfRequest + 1;
     }
     public void viewAllRequest(){
+        boolean isThereExistedRecord = false;
         for(Request request : requests){
             if(request == null) break;
-            System.out.println(request.idOfUser + " " + request.description);
+            System.out.println(request.idOfUser + "\t" + request.description);
+            isThereExistedRecord = true;
+        }
+        if(!isThereExistedRecord){
+            System.out.println("No request existed");
         }
     }
     public void viewRequestByCurrentUserId(int currentUserId){
+        boolean isThereExistedRecord = false;
+        System.out.println("Id \t Description");
         for(Request request : requests){
             if(request == null) break;
             if(request.idOfUser == currentUserId){
-                System.out.println(request.idOfUser + " " + request.description);
+                System.out.println(request.idOfUser + "\t" + request.description + " ");
+                isThereExistedRecord = true;
             }
+        }
+        if(!isThereExistedRecord){
+            System.out.println("No request existed");
         }
     }
 

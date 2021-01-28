@@ -1,20 +1,20 @@
 import users.Customer;
 import users.Admin;
 import users.User;
+import users.Session;
 import request.Request;
 import storage.RequestList;
 import storage.UserDatabase;
 import java.util.Scanner;
 
 public class App {
-    Session session;
+    static Session session;
     static UserDatabase<User> userDB = new UserDatabase<>();
     static Scanner input = new Scanner(System.in);
     static int registrationID = 1;
     static boolean isAppRunning = true;
     public static void main(String[] args) throws Exception {
-       
-   
+
         do{
 
         int menu = 0;
@@ -33,7 +33,6 @@ public class App {
         }
     }
     while(isAppRunning);
-
         
     }
     public static void initializeRegistrationForm(){
@@ -52,17 +51,61 @@ public class App {
         String username = input.next();
         System.out.print("Enter password: ");
         String password = input.next();
+        session = userDB.authUser(username,password);
+        if(session != null){
+                if(session.role == "ADMIN"){
+                    initializeAdminDashboard();
+                }
+                else{
+                    initializeCustomerDashboard();
+                }
+        }       
+        else{
+            System.out.println("Invalid Username or Password");
+        }
     }
-}
-class Session{
-    int id;
-    String name;
-    String role;
-    Session(int id,String name,String role){
-        this.id = id;
-        this.name = name;
-        this.role = role;
+    public static void initializeAdminDashboard(){
+        int choice = 0;
+        do{
+        System.out.print("1 to View Request, 2 to Accept Request, 3 to Logout : ");
+        choice = input.nextInt();
+        switch(choice){
+            case 1:
+            User.requestList.viewAllRequest();
+            case 2: 
+            break;
+            case 3:
+            session.isAuth = false;
+        }
+       }
+       while(session.isAuth);
     }
+    public static void initializeCustomerDashboard(){
+        int choice = 0;
+        do{
+            System.out.print("1 to View your Request, 2 to Make a Request, 3 to Logout : ");
+            choice = input.nextInt();
+            switch(choice){
+                case 1: 
+                User.requestList.viewRequestByCurrentUserId(session.id);
+                break;
+                case 2: 
+                initializeRequestForm();
+                break;
+                case 3:
+                session.isAuth = false;
+                
+            }
+        }
+        while(session.isAuth);
+    }
+    public static void initializeRequestForm(){
+        input.nextLine();// fix cursor jump
+        System.out.print("Enter your request description: ");
+        String description = input.nextLine();
+        User.requestList.createRequest(new Request(session.id, session.name, description));
+    }   
+
 }
 
 
