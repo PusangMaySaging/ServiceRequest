@@ -1,6 +1,11 @@
 #  Java Console App: Service Request 
+## How to Run 
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+1. Run `https://github.com/Ryanali23/ServiceRequest.git` or download as ZIP file.
+2. After cloning, Run you IDE or open folder with your favorite text editor. You can run using console with: 
+`javac App.java`
+`java App`
+5. Enjoy :heart:
 
 ## Folder Structure
 
